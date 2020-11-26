@@ -26,6 +26,21 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <!--Dependencia Jersey-->
+    <dependency>
+      <groupId>org.glassfish.jersey.bundles</groupId>
+      <artifactId>jaxrs-ri</artifactId>
+      <version>2.29</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.json/json Necesario para usar JSON-->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20201115</version>
+    </dependency>
+
   </dependencies>
 
   <build>
