@@ -1,10 +1,9 @@
-package mx.edu.utez.servicio.modelo;
+package mx.edu.utez.modelo;
 
 import mx.edu.utez.servicio.general.ConexionMySQL;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

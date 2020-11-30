@@ -1,4 +1,4 @@
-package mx.edu.utez.servicio.modelo;
+package mx.edu.utez.modelo;
 
 public class RolBean {
     private int id ;
@@ -32,11 +32,4 @@ public class RolBean {
         this.nombre = nombre;
     }
 
-    @Override
-    public String toString() {
-        return "RolBean{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                '}';
-    }
 }
