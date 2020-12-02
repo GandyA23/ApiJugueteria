@@ -13,8 +13,8 @@ public class CategoriaDao extends ConexionMySQL {
 
     private final String SQL_QUERY = "SELECT * FROM categoria WHERE id = ?";
     private final String SQL_QUERY_ALL = "SELECT * FROM categoria";
-    private final String SQL_ADD = "INSERT INTO categoria VALUES (null, ?)";
-    private final String SQL_DELETE = "DELETE FROM categoria WHERE id = ?";
+    private final String SQL_ADD = "INSERT INTO categoria VALUES (null, ?, 1)";
+    private final String SQL_DELETE = "UPDATE categoria SET status = 0 WHERE id = ?";
     private final String SQL_UPDATE = "UPDATE categoria SET nombre=? WHERE id = ? ";
 
     public CategoriaBean query(int id){
@@ -26,7 +26,7 @@ public class CategoriaDao extends ConexionMySQL {
 
             rs = pstm.executeQuery();
             if(rs.next())
-                categoria = new CategoriaBean(rs.getInt("id"), rs.getString("nombre"));
+                categoria = new CategoriaBean(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("status"));
         }catch (Exception e){
             System.out.println("Error en CategoriaDao().query(int id)");
             System.out.println(e);
@@ -50,7 +50,7 @@ public class CategoriaDao extends ConexionMySQL {
             rs = pstm.executeQuery();
 
             while(rs.next())
-                categorias.add(new CategoriaBean(rs.getInt("id"), rs.getString("nombre")));
+                categorias.add(new CategoriaBean(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("status")));
         }catch (Exception e){
             System.out.println("Error en CategoriaDao().queryAll()");
             System.out.println(e);

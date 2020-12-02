@@ -34,13 +34,6 @@
       <version>2.29</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.json/json Necesario para usar JSON-->
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20201115</version>
-    </dependency>
-
   </dependencies>
 
   <build>
