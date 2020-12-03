@@ -7,6 +7,10 @@ public class RolBean {
     public RolBean() {
     }
 
+    public RolBean(int id) {
+        this.id = id;
+    }
+
     public RolBean(String nombre) {
         this.nombre = nombre;
     }
