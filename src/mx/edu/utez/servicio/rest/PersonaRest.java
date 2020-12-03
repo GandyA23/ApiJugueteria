@@ -13,18 +13,10 @@ public class PersonaRest {
 
     //Consulta 1 persona por id
     @GET
-    @Path("/queryId")
+    @Path("/query")
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaBean query(@QueryParam("id") int id){
         return dao.query(id);
-    }
-
-    //Consulta 1 persona por email
-    @GET
-    @Path("/queryEmail")
-    @Produces(MediaType.APPLICATION_JSON)
-    public PersonaBean query(@QueryParam("email") String email){
-        return dao.query(email);
     }
 
     //Consulta todas las personas
@@ -47,18 +39,10 @@ public class PersonaRest {
 
     //Elimina 1 persona por id
     @DELETE
-    @Path("/deleteId")
+    @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
     public boolean delete(@QueryParam("id") int id){
         return dao.delete(id);
-    }
-
-    //Elimina 1 persona por email
-    @DELETE
-    @Path("/deleteEmail")
-    @Produces(MediaType.APPLICATION_JSON)
-    public boolean delete(@QueryParam("email") String email){
-        return dao.delete(email);
     }
 
     //Actualiza 1 persona por id

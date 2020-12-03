@@ -17,19 +17,17 @@ public class PersonaDao extends ConexionMySQL {
     private PreparedStatement pstm ;
     private ResultSet rs ;
 
-    private final String SQL_QUERY_ID = "SELECT `id`, `nombre`, `apellido1`, `apellido2`, `direccion`, `fechaNacimiento`, `email`, " + aes.decrypt("password") + " AS `pass`, `telefono`, `status`, `idRol` FROM persona WHERE id = ? ";
-    private final String SQL_QUERY_EMAIL = "SELECT `id`, `nombre`, `apellido1`, `apellido2`, `direccion`, `fechaNacimiento`, `email`, " + aes.decrypt("password") + " AS `pass`, `telefono`, `status`, `idRol` FROM persona WHERE email = ? ";
+    private final String SQL_QUERY = "SELECT `id`, `nombre`, `apellido1`, `apellido2`, `direccion`, `fechaNacimiento`, `email`, " + aes.decrypt("password") + " AS `pass`, `telefono`, `status`, `idRol` FROM persona WHERE id = ? ";
     private final String SQL_QUERY_ALL = "SELECT `id`, `nombre`, `apellido1`, `apellido2`, `direccion`, `fechaNacimiento`, `email`, " + aes.decrypt("password") + " AS `pass`, `telefono`, `status`, `idRol` FROM persona";;
     private final String SQL_ADD = "INSERT INTO persona VALUES(null, ?, ?, ?, ?, ?, ?, " + aes.encrypt() + ", ?, 1, ?) ";
-    private final String SQL_DELETE_ID = "UPDATE persona SET status = 0 WHERE id = ? ";
-    private final String SQL_DELETE_EMAIL = "UPDATE persona SET status = 0 WHERE email = ? ";
+    private final String SQL_DELETE = "UPDATE persona SET status = 0 WHERE id = ? ";
     private final String SQL_UPDATE = "UPDATE persona SET `nombre` = ?, `apellido1` = ?, `apellido2` = ?, `direccion` = ?, `fechaNacimiento` = ?, `email` = ?, `telefono` = ?, `idRol` = ? WHERE id = ? ";
     private final String SQL_UPDATE_PASSWORD = "UPDATE persona SET `password` = " + aes.encrypt() + " WHERE id = ?";
 
     public PersonaBean query(int id){
         PersonaBean persona = null ;
         try{
-            pstm = getConexion().prepareStatement(SQL_QUERY_ID);
+            pstm = getConexion().prepareStatement(SQL_QUERY);
             pstm.setInt(1, id);
 
             rs = pstm.executeQuery();
@@ -58,44 +56,6 @@ public class PersonaDao extends ConexionMySQL {
                 pstm.close();
             }catch (Exception e){
                 System.out.println("Error al cerrar conexiones de DB en PersonaDao().query(int id)");
-            }
-        }
-
-        return persona ;
-    }
-
-    public PersonaBean query(String email){
-        PersonaBean persona = null ;
-        try{
-            pstm = getConexion().prepareStatement(SQL_QUERY_EMAIL);
-            pstm.setString(1, email);
-
-            rs = pstm.executeQuery();
-            if(rs.next()){
-                persona = new PersonaBean(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido1"),
-                        rs.getString("apellido2"),
-                        rs.getString("direccion"),
-                        rs.getString("fechaNacimiento"),
-                        rs.getString("email"),
-                        rs.getString("pass"),
-                        rs.getString("telefono"),
-                        rs.getBoolean("status"),
-                        new RolBean( rs.getInt("idRol") )
-                );
-            }
-
-        }catch (Exception e){
-            System.out.println("Error en PersonaDao().query(String email)");
-            System.out.println(e);
-        }finally {
-            try{
-                rs.close();
-                pstm.close();
-            }catch (Exception e){
-                System.out.println("Error al cerrar conexiones de DB en PersonaDao().query(String email)");
             }
         }
 
@@ -182,7 +142,7 @@ public class PersonaDao extends ConexionMySQL {
         boolean flag = false ;
 
         try{
-            pstm = getConexion().prepareStatement(SQL_DELETE_ID);
+            pstm = getConexion().prepareStatement(SQL_DELETE);
             pstm.setInt(1, id);
             flag = pstm.executeUpdate() == 1;
 
@@ -194,29 +154,6 @@ public class PersonaDao extends ConexionMySQL {
                 pstm.close();
             }catch (Exception e){
                 System.out.println("Error al cerrar conexiones de DB en PersonaDao().delete(int id)");
-            }
-        }
-
-        return flag;
-    }
-
-    public boolean delete(String email){
-        boolean flag = false ;
-
-        try{
-            pstm = getConexion().prepareStatement(SQL_DELETE_EMAIL);
-            pstm.setString(1, email);
-
-            flag = pstm.executeUpdate() == 1;
-
-        }catch (Exception e){
-            System.out.println("Error en PersonaDao().delete(String email)");
-            System.out.println(e);
-        }finally {
-            try{
-                pstm.close();
-            }catch (Exception e){
-                System.out.println("Error al cerrar conexiones de DB en PersonaDao().delete(iString email)");
             }
         }
 
