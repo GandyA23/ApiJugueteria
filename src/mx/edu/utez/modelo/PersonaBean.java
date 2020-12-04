@@ -18,6 +18,10 @@ public class PersonaBean {
     public PersonaBean() {
     }
 
+    public PersonaBean(int id) {
+        this.id = id;
+    }
+
     public PersonaBean(String nombre, String apellido1, String apellido2, String direccion, String fechaNacimiento, String email, String password, String telefono, boolean status, RolBean rol) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
