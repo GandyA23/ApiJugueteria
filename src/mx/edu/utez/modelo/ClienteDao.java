@@ -109,6 +109,11 @@ public class ClienteDao extends ConexionMySQL {
             System.out.println("Error al cerrar conexiones de DB en ClienteDao().add(ClienteBean bean)");
         }
 
+        if(!flag && id != 0){
+            personaDao.delete(id);
+            System.out.println("Se ingreso una persona, así que se borrara porque hubo un error");
+        }
+
         return flag;
     }
 
@@ -121,12 +126,6 @@ public class ClienteDao extends ConexionMySQL {
         }catch (Exception e){
             System.out.println("Error en ClienteDao().delete(int id)");
             System.out.println(e);
-        }finally {
-            try{
-                pstm.close();
-            }catch (Exception e){
-                System.out.println("Error al cerrar conexiones de DB en ClienteDao().delete(int id)");
-            }
         }
 
         return flag;
