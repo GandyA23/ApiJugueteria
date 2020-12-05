@@ -11,6 +11,10 @@ public class JugueteBean {
     public JugueteBean() {
     }
 
+    public JugueteBean(int id) {
+        this.id = id;
+    }
+
     public JugueteBean(String nombre, double precio, String marca, CategoriaBean categoria, boolean status) {
         this.nombre = nombre;
         this.precio = precio;

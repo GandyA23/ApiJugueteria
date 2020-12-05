@@ -9,6 +9,10 @@ public class CarritoBean {
     public CarritoBean() {
     }
 
+    public CarritoBean(int id) {
+        this.id = id;
+    }
+
     public CarritoBean(PersonaBean persona, String fecha, boolean status) {
         this.persona = persona;
         this.fecha = fecha;
