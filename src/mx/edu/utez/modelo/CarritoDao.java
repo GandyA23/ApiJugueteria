@@ -14,6 +14,7 @@ public class CarritoDao extends ConexionMySQL {
     private final String SQL_ADD = "INSERT INTO carrito VALUES (null, ?, null, 1)";
     private final String SQL_BUY = "UPDATE carrito SET status = 0, fecha = NOW() WHERE id = ?";
     private final String SQL_HISTORY = "SELECT * FROM carrito WHERE idPersona = ? AND status = 0";
+    private final String SQL_QUERY_CARRITO_ACTIVO = "SELECT * FROM carrito WHERE idPersona = ? AND status = 1";
 
     public boolean add(int idPersona){
         boolean flag = false ;
@@ -35,6 +36,37 @@ public class CarritoDao extends ConexionMySQL {
         }
 
         return flag;
+    }
+
+    public CarritoBean queryActivo(int idPersona){
+        CarritoBean bean = new CarritoBean();
+
+        try{
+            pstm = getConexion().prepareStatement(SQL_QUERY_CARRITO_ACTIVO);
+            pstm.setInt(1, idPersona);
+
+            rs = pstm.executeQuery();
+
+            while(rs.next())
+                bean = new CarritoBean(
+                    rs.getInt("id"),
+                    new PersonaBean(idPersona),
+                    rs.getString("fecha"),
+                    rs.getBoolean("status")
+                );
+        }catch (Exception e){
+            System.out.println("Error en CarritoDao().queryCarritoActivo(int idPersona)");
+            System.out.println(e);
+        }finally {
+            try{
+                rs.close();
+                pstm.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar conexiones de DB en CarritoDao().queryCarritoActivo(int idPersona)");
+            }
+        }
+
+        return bean;
     }
     
     public boolean buy(int id){

@@ -30,6 +30,14 @@ public class CarritoRest {
         return dao.buy(bean.getId());
     }
 
+    //Consulta el carrito activo de una persona
+    @GET
+    @Path("/queryActivo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CarritoBean queryActivo(@QueryParam("idPersona") int idPersona){
+        return dao.queryActivo(idPersona);
+    }
+
     //Consulta todas las Carritos
     @GET
     @Path("/history")
