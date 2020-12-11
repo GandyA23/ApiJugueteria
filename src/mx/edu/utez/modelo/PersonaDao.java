@@ -23,6 +23,7 @@ public class PersonaDao extends ConexionMySQL {
     private final String SQL_DELETE = "UPDATE persona SET status = 0 WHERE id = ? ";
     private final String SQL_UPDATE = "UPDATE persona SET `nombre` = ?, `apellido1` = ?, `apellido2` = ?, `direccion` = ?, `fechaNacimiento` = ?, `email` = ?, `telefono` = ?, `idRol` = ? WHERE id = ? ";
     private final String SQL_UPDATE_PASSWORD = "UPDATE persona SET `password` = " + aes.encrypt() + " WHERE id = ?";
+    private final String SQL_QUERY_LOGIN = "SELECT id, nombre, apellido1, apellido2, direccion, fechaNacimiento, email, " + aes.decrypt("password") + " AS pass, telefono, status, idRol FROM persona WHERE email = ? AND " + aes.decrypt("password") + " = ? ";
 
     public PersonaBean query(int id){
         PersonaBean persona = null ;
@@ -98,6 +99,45 @@ public class PersonaDao extends ConexionMySQL {
         }
 
         return personas;
+    }
+
+    public PersonaBean login(String email, String password){
+        PersonaBean persona = null ;
+        try{
+            pstm = getConexion().prepareStatement(SQL_QUERY_LOGIN);
+            pstm.setString(1, email);
+            pstm.setString(2, password);
+
+            rs = pstm.executeQuery();
+            if(rs.next()){
+                persona = new PersonaBean(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido1"),
+                        rs.getString("apellido2"),
+                        rs.getString("direccion"),
+                        rs.getString("fechaNacimiento"),
+                        rs.getString("email"),
+                        rs.getString("pass"),
+                        rs.getString("telefono"),
+                        rs.getBoolean("status"),
+                        new RolBean( rs.getInt("idRol") )
+                );
+            }
+
+        }catch (Exception e){
+            System.out.println("Error en PersonaDao().login(PersonaBean bean)");
+            System.out.println(e);
+        }finally {
+            try{
+                rs.close();
+                pstm.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar conexiones de DB en PersonaDao().login(PersonaBean bean)");
+            }
+        }
+
+        return persona ;
     }
 
     public int add(PersonaBean bean){

@@ -27,6 +27,14 @@ public class PersonaRest {
         return dao.queryAll();
     }
 
+    //Inicio de sesión
+    @GET
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PersonaBean login(@QueryParam("email") String email, @QueryParam("password") String password){
+        return dao.login(email, password);
+    }
+
     //Inserta 1 persona y retorna su id en la DB,
     //en caso de que retorne 0, quiere decir que no se ingreso
     @POST
